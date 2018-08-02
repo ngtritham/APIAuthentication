@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const monggose = require('mongoose');
 
+monggose.Promise = global.Promise;
 monggose.connect('mongodb://localhost/APIAuthentication');
 
 // Import modules
