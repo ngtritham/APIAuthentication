@@ -1,4 +1,15 @@
+const JWT = require('jsonwebtoken');
 const User = require('../models/user');
+const { JWT_SECRET } = require('../configuration');
+
+signToken = user => {
+    return JWT.sign({
+        iss: 'ThamNguyen',
+        sub: user.id,
+        iat: new Date().getTime(),  // current time
+        exp: new Date().setDate(new Date().getDate() + 1)   // current time + 1 day ahead
+    }, JWT_SECRET);
+}
 
 module.exports = {
     signUp: async (req, res, next) => {
@@ -24,11 +35,12 @@ module.exports = {
         });
         await newUser.save();
 
+        // Generate the token
+        const token = signToken(newUser);
+
         // Respond with token
-        res.json({
-            user: 'created'
-        });
-        res.end();
+        res.status(200).json({token: token});
+
     },
     signIn: async (req, res, next) => {
         console.log('UsersController.signIn() has called !!');
