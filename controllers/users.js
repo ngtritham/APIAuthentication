@@ -43,9 +43,12 @@ module.exports = {
 
     },
     signIn: async (req, res, next) => {
-        console.log('UsersController.signIn() has called !!');
+        console.log('req.user', req.user);
+        const token = signToken(req.user);
+        console.log('Successful login !!');
     },
     secret: async (req, res, next) => {
-        console.log('UsersController.secret() has called !!');
+        console.log('Enter secret !!');
+        res.json({ secret: 'resource' });
     },
 }
